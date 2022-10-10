@@ -1,1 +1,57 @@
-.
+pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.3.9'
+        jdk 'jdk8'
+    }
+    stages {
+         stage('Clone repository') { 
+            steps { 
+                
+                git clone https://github.com/hoodr79/lal/tree/main/java-docs-spring-hello-world-main
+                
+            }
+        }
+
+        stage('Build') { 
+            steps { 
+                sh """
+                  mvn clean package
+                  mvn install
+                """
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                script {
+                    docker.build("vigneshsweekaran/hello-world:${TAG}")
+                }
+            }
+        }
+	    stage('Pushing Docker Image to Dockerhub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker_credential') {
+                        docker.image("vigneshsweekaran/hello-world:${TAG}").push()
+                        docker.image("vigneshsweekaran/hello-world:${TAG}").push("latest")
+                    }
+                }
+            }
+        }
+        stage('Test'){
+            steps {
+                 echo 'test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script{
+                        docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                    }
+                }
+            }
+        }
+    }
+}
