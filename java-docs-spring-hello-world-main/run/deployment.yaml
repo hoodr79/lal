@@ -17,5 +17,5 @@ spec:
     spec:
       containers:
         - name:  hello-world
-          image: vigneshsweekaran/hello-world:latest
+          image: hoodr792/hello-world:latest
           imagePullPolicy: Always
