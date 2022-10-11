@@ -16,7 +16,7 @@ spec:
   storageClassName: local-storage
   claimRef:
     name: jenkins-pv-claim
-    namespace: devops-tools
+    namespace: devops
   capacity:
     storage: 10Gi
   accessModes:
