@@ -50,8 +50,4 @@ spec:
             failureThreshold: 3
           volumeMounts:
             - name: jenkins-data
-              mountPath: /var/jenkins_home         
-      volumes:
-        - name: jenkins-data
-          persistentVolumeClaim:
-              claimName: jenkins-pv-claim
+              mountPath: /var/jenkins_home
