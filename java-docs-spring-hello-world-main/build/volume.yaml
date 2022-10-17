@@ -30,7 +30,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - gke-demo-gke-default-pool-0737c290-hm7b
+          - gke-demo-gke-default-pool-601f5a9f-pk5s
 
 ---
 apiVersion: v1
